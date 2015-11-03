@@ -5,6 +5,7 @@
 import os
 import logging
 
+
 def load_config():
     mode = os.environ.get('MODE')
     try:

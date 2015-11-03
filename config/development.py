@@ -7,9 +7,28 @@ from .default import Config
 
 
 class DevelopmentConfig(Config):
-
     DEBUG = True
 
+    '''
+    web的访问地址
+    '''
+
     WEB_URL = 'http://127.0.0.1:5000'
+
+    '''
+    mysql的相关配置
+    '''
+
+    HOST = '127.0.0.1'
+
+    PORT = 3306
+
+    USER = 'root'
+
+    PASSWORD = 'Fantianwen09'
+
+    DB = 'awesome'
+
+
 
 

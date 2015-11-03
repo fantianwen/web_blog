@@ -10,3 +10,8 @@ class Config(object):
 
     # 默认发布出去的url地址
     WEB_URL = 'http://127.0.0.1:5000'
+
+    # database 参数设置
+    HOST = '127.0.0.1'
+    PORT = 3306
+    USER = 'radasm'
