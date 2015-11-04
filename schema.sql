@@ -1,14 +1,5 @@
-drop database if exists web_blog;
-
-create database web_blog;
-
-use web_blog;
-
-
-create table users(
-
-
-
-
-
-)
+create table Users(
+    `id` int primary key auto_increment,
+    `username` varchar(30) not null,
+    `password` varchar(30) not null
+)engine=innodb default charset=utf8;

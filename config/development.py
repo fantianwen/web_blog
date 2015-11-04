@@ -15,6 +15,8 @@ class DevelopmentConfig(Config):
 
     WEB_URL = 'http://127.0.0.1:5000'
 
+    SECRET_KEY = 'hahah'
+
     '''
     mysql的相关配置
     '''
@@ -28,7 +30,3 @@ class DevelopmentConfig(Config):
     PASSWORD = 'Fantianwen09'
 
     DB = 'awesome'
-
-
-
-
