@@ -7,8 +7,6 @@ from .default import Config
 
 
 class DevelopmentConfig(Config):
-    DEBUG = True
-
     '''
     web的访问地址
     '''

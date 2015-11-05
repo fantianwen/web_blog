@@ -2,56 +2,30 @@
 # coding:utf-8
 
 from utils import mylog
-import asyncio
-import aiomysql
+import pymysql
 
 
-# TODO  连接池对象重复生成，效率很低
-@asyncio.coroutine
-def create_pool(loop=None):
-    # 初始化数据库连接池
-    # host = config.get('HOST')
-    host = '127.0.0.1'
-    print('host is : %s ' % host)
-
-    # port = config.get('PORT')
-    port = 3306
-    # user = config.get('USER')
-    user = 'root'
-    # password = config.get('PASSWORD')
-    password = 'Fantianwen09'
-    # db = config.get('DB')
-    db = 'awesome'
-    global pool
-    # 获取数据库连接池的对象
-    if loop is None:
-        pool = yield from aiomysql.create_pool(host=host, port=port, user=user, password=password, db=db)
-    else:
-        pool = yield from aiomysql.create_pool(host=host, port=port, user=user, password=password, db=db, loop=loop)
-    mylog.info('yield success!')
+def create_connection():
+    connection = pymysql.connect(host='127.0.0.1',
+                                 port=3306,
+                                 user='root',
+                                 password='Fantianwen09',
+                                 db='awesome',
+                                 charset='utf8mb4',
+                                 cursorclass=pymysql.cursors.DictCursor)
+    return connection
 
 
-# insert操作
-@asyncio.coroutine
 def insert(sql, args):
-    mylog.info('begin.....inserting user data')
     stmt = sql.replace('?', '%s')
-    mylog.info(stmt)
-    with (yield from pool) as conn:
-        cur = yield from conn.cursor()
-        yield from cur.execute(stmt, args)
-        print(cur.affected)
-        yield from cur.close()
-        yield from conn.commit()
-
-
-@asyncio.coroutine
-def find():
-    with (yield from pool) as conn:
-        cur = yield from conn.cursor()
-        yield from cur.execute('select * from Users;')
-        re = yield from cur.fetchall()
-        print(re)
+    print(stmt)
+    conn = create_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(stmt, tuple(args))
+        conn.commit()
+    finally:
+        conn.close()
 
 
 class Field(object):
@@ -108,8 +82,6 @@ class Model(dict, metaclass=ModelMetaclass):
     def __setattr__(self, key, value):
         self[key] = value
 
-    @classmethod
-    @asyncio.coroutine
     def save(self):
         fields = []
         params = []
@@ -122,36 +94,9 @@ class Model(dict, metaclass=ModelMetaclass):
         sql = 'insert into %s (%s) values (%s)' % (self.__tableName__, ','.join(fields), ','.join(params))
         mylog.info(sql)
         print('arg is %s' % (str(args)))
-        yield from insert(sql=sql, args=args)
-
-    @classmethod
-    @asyncio.coroutine
-    def find_all(self):
-        yield from find()
+        insert(sql=sql, args=args)
 
 
 class Users(Model):
     username = StringField('username')
     password = StringField('password')
-
-#
-# @asyncio.coroutine
-# def test_save():
-#     yield from create_pool()
-#     user = Users(username='test2', password='4444')
-#     yield from user.save()
-#
-#
-# @asyncio.coroutine
-# def haha():
-#     yield from create_pool()
-#     with (yield from pool) as conn:
-#         cur = yield from conn.cursor()
-#         yield from cur.execute("select * from student;")
-#         re = yield from cur.fetchall()
-#         print(re)
-#
-#
-# loop = asyncio.get_event_loop()
-# loop.run_until_complete(test_save())
-# loop.run_forever()

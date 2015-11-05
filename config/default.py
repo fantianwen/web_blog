@@ -6,7 +6,7 @@
 
 class Config(object):
     # 默认是debug模式
-    DEBUG = True
+    DEBUG = False
 
     # 默认发布出去的url地址
     WEB_URL = 'http://127.0.0.1:5000'
