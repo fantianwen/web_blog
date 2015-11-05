@@ -2,29 +2,72 @@
 # coding:utf-8
 
 from utils import mylog
-from flask import Flask, request, render_template, flash, url_for, redirect, session, stream_with_context, Response
+from flask import Flask, request, render_template
 from orm import Users
+from jinja2 import Environment, FileSystemLoader
 
-import asyncio
-
+import time, os, datetime
+from models import Blog
 import app_config
-
-
 
 # 初始化flask的app
 app = Flask(__name__)
 
 
+def datetime_filter(t):
+    delta = int(time.time() - t)
+    if delta < 60:
+        return '1分钟前'
+    if delta < 3600:
+        return '%s分钟前' % (delta // 60)
+    if delta < 86400:
+        return '%s小时前' % (delta // 3600)
+    if delta < 604800:
+        return '%s天前' % (delta // 86400)
+    dt = datetime.fromtimestamp(t)
+    return '%s年%s月%s日' % (dt.year, dt.month, dt.day)
+
+
+def init_jinja2(config, **kw):
+    mylog.info('init jinja2...')
+    options = dict(
+        autoescape=kw.get('autoescape', True),
+        block_start_string=kw.get('block_start_string', '{%'),
+        block_end_string=kw.get('block_end_string', '%}'),
+        variable_start_string=kw.get('variable_start_string', '{{'),
+        variable_end_string=kw.get('variable_end_string', '}}'),
+        auto_reload=kw.get('auto_reload', True)
+    )
+    path = kw.get('path', None)
+    if path is None:
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+    mylog.info('set jinja2 template path: %s' % path)
+    env = Environment(loader=FileSystemLoader(path), **options)
+    filters = kw.get('filters', None)
+    if filters is not None:
+        for name, f in filters.items():
+            env.filters[name] = f
+    config['__templating__'] = env
+
+
 def create_app_and_init():
     # 初始化配置
     app_config.init_config(app)
+
+    init_jinja2(app.config)
     # 运行server
     app.run()
 
 
 @app.route('/')
 def index():
-    return render_template('login.html')
+    summary = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    blogs = [
+        Blog(id='1', name='Test Blog', summary=summary, created_at=time.time() - 120),
+        Blog(id='2', name='Something New', summary=summary, created_at=time.time() - 3600),
+        Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time() - 7200)
+    ]
+    return render_template('blogs.html', blogs=blogs)
 
 
 @app.route('/login', methods=['POST'])
@@ -36,11 +79,6 @@ def login():
     user = Users(username=username, password=password)
     mylog.info('%s' % user.__tableName__)
     user.save()
-    return render_template('welcome.html', username=username)
-
-
-@app.route('/login')
-def welcome():
     return render_template('welcome.html')
 
 
