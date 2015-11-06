@@ -3,26 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
+    <script src="/static/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/blog.js">
+    </script>
+
 </head>
 <body>
 
+<div class="header-wrap">
+    <div class="header center-container">
+        <a href="/" title="美乃滋酱の个人博客" class="logo">美乃滋酱の个人博客</a>
 
-<div class="post link-title-post">
-    <h2 class="title"><a href="/post/2014/03/talk-about-side-project">业余产品开发杂谈</a>
-    </h2><span class="date">October 11, 2015</span>
+        <div class="links">
+            <a href="/archive">archive</a>
+            <a href="http://wiki.hustlzp.com" target="_blank">wiki</a>
+            <a href="/about.md">about</a>
+            <a href="https://github.com/fantianwen" target="_blank">github</a>
+        </div>
 
-    <div class="post-body abstract-content">
-        <div class="p_part"><p>谈三点：方向、技术、产品。</p></div>
-
-        <div class="p_part"><p>做什么、不做什么</p></div>
-
-        <div class="p_part"><p>精力有限，要快刀斩乱麻。</p></div>
-
-        <div class="p_part"><p>之前的东西，保留西窗烛、Blogbar，其他的弃坑。这两个后续的开发重点都是移动端。</p></div>
-
-        <div class="p_part"><p>新项目的话，ThatMatters......</p></div>
     </div>
 </div>
+
+{% for blog in blogs %}
+
+<div class="post">
+    <h2 class="title">
+        <a href="/post/2014/03/talk-about-side-project" id="title">{{blog.name}}</a>
+    </h2>
+
+    <div class="time">
+        <span class="date">{{blog.created_at}}</span>
+    </div>
+
+    <div class="post-body">
+        <p>{{blog.summary}}</p>
+    </div>
+</div>
+
+
+<div class="blank">
+</div>
+
+
+{% endfor %}
 
 
 </body>

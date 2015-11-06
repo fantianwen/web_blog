@@ -67,7 +67,7 @@ def index():
         Blog(id='2', name='Something New', summary=summary, created_at=time.time() - 3600),
         Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time() - 7200)
     ]
-    return render_template('blogs.html', blogs=blogs)
+    return render_template('welcome.html', blogs=blogs)
 
 
 @app.route('/login', methods=['POST'])
