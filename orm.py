@@ -16,6 +16,22 @@ def create_connection():
     return connection
 
 
+def select(sql, args, size=None):
+    stmt = sql.replace('?', '%s')
+    print(stmt)
+    conn = create_connection()
+    try:
+        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+            cursor.execute(stmt, tuple(args))
+            if size:
+                re = cursor.fetchmany(size)
+            else:
+                re = cursor.fetchall()
+    finally:
+        conn.close()
+    return re
+
+
 def execute(sql, args):
     stmt = sql.replace('?', '%s')
     print(stmt)
@@ -136,6 +152,32 @@ class Model(dict, metaclass=ModelMetaclass):
                 mylog.info('using default value for %s: %s' % (key, str(value)))
                 setattr(self, key, value)
         return value
+
+    @classmethod
+    def find_all(cls, where=None, args=None, **kw):
+        sql = [cls.__select__]
+        if where:
+            sql.append('where')
+            sql.append(where)
+        if args is None:
+            args = []
+        orderBy = kw.get('orderBy', None)
+        if orderBy:
+            sql.append('order by')
+            sql.append(orderBy)
+        limit = kw.get('limit', None)
+        if limit is not None:
+            sql.append('limit')
+            if isinstance(limit, int):
+                sql.append('?')
+                args.append(limit)
+            elif isinstance(limit, tuple) and len(limit) == 2:
+                sql.append('?, ?')
+                args.extend(limit)
+            else:
+                raise ValueError('Invalid limit value: %s' % str(limit))
+        re = select(' '.join(sql), args)
+        return [cls(**r) for r in re]
 
     def save(self):
         args = list(map(self.getValueOrDefault, self.__fields__))
