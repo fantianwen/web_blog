@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-from utils import mylog
+from utils import mylog, highlight
 from flask import Flask, request, render_template, session, flash
 from jinja2 import Environment, FileSystemLoader
 
@@ -107,7 +107,9 @@ def save_blog():
 @app.route('/blog/<id>', methods=['GET'])
 def blog_id(id):
     blog = Blog.find(id)
-    return blog.content
+    md_text = highlight.parse2markdown(blog.content)
+    blog.html_content = md_text
+    return render_template('blogdetail.html', blog=blog)
 
 
 if __name__ == '__main__':

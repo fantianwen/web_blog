@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog</title>
+
+    <style>
+
+        .content-wrapper {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .content {
+        width: 660px;
+        max-width: 90%;
+        margin: 0 auto;
+        padding-top: 40px;
+        font-size: large;
+        }
+
+        .title-wrapper{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        }
+        .title{
+        width: 660px;
+        max-width: 90%;
+        margin: 0 auto;
+        padding-top: 40px;
+        font-size: 80px;
+        }
+        .time{
+        margin-top: 10px;
+        width: 660px;
+        margin-left: auto;
+        margin-right: auto;
+        color: #a9a9a9;
+        }
+
+        .python{
+        border-top: solid 1px #eee;
+        border-bottom: solid 1px #eee;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+        }
+        .sql{
+        border-top: solid 1px #eee;
+        border-bottom: solid 1px #eee;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        background: #fafad2;
+        }
+
+        .java{
+        border-top: solid 1px #eee;
+        border-bottom: solid 1px #eee;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        background: #fafad2;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+<div class="head">
+
+
+</div>
+
+<div class="title-wrapper">
+
+    <div class="title">
+        {{blog.name}}
+    </div>
+
+</div>
+
+
+<div class="time">
+    {{blog.created_at}}
+</div>
+
+
+<div class="content-wrapper">
+
+    <div class="content">
+        {{blog.html_content|safe}}
+    </div>
+
+</div>
+
+
+</body>
+</html>
