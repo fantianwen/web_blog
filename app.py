@@ -2,11 +2,11 @@
 # coding:utf-8
 
 from utils import mylog
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, flash
 from jinja2 import Environment, FileSystemLoader
 
 import time, os, datetime
-from models import Blog
+from models import Blog, User, Comment, next_id
 import app_config
 
 # 初始化flask的app
@@ -90,6 +90,24 @@ def validate(username, password):
 @app.route('/write')
 def write():
     return render_template('write.html')
+
+
+@app.route('/save_blog', methods=['POST'])
+def save_blog():
+    id = next_id()
+    user_id = 'admin'
+    user_name = 'fantianwen'
+    user_image = ''
+    name = request.form['blog_title']
+    summary = request.form['blog_summary']
+    content = request.form['blog_content']
+    created_at = time.time()
+
+    blog = Blog(id=id, user_id=user_id, user_name=user_name, user_image=user_image, name=name, summary=summary,
+                content=content, created_at=created_at)
+    blog.save()
+    flash('保存成功')
+    return render_template('/welcome.html')
 
 
 if __name__ == '__main__':

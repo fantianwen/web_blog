@@ -16,7 +16,7 @@ def create_connection():
     return connection
 
 
-def insert(sql, args):
+def execute(sql, args):
     stmt = sql.replace('?', '%s')
     print(stmt)
     conn = create_connection()
@@ -79,6 +79,7 @@ class ModelMetaclass(type):
         # 如果不是Model基类，就需要收集收集attrs.items()中的属性信息，将是上述Field中定义的属性封装到dict中
         mappings = dict()
         fields = []
+        table = attrs.get('__table__', None) or name
         primarykey = None
         for k, v in attrs.items():
             if isinstance(v, Field):
@@ -95,17 +96,17 @@ class ModelMetaclass(type):
         escaped_fields = list(map(lambda s: '`%s`' % s, fields))
         # 创建类属性保存数据
         attrs['__mappings__'] = mappings
-        attrs['__table__'] = name
+        attrs['__table__'] = table
         attrs['__primary_key__'] = primarykey
         attrs['__fields__'] = fields
         # select语句
-        attrs['__select__'] = 'select `%s`,%s from `%s`' % (primarykey, ','.join(escaped_fields), name)
+        attrs['__select__'] = 'select `%s`,%s from `%s`' % (primarykey, ','.join(escaped_fields), table)
         # insert
         attrs['__insert__'] = 'insert into `%s` (%s,`%s`) values (%s)' % (
-            name, ','.join(escaped_fields), primarykey, create_args_string(len(fields) + 1))
+            table, ','.join(escaped_fields), primarykey, create_args_string(len(fields) + 1))
         attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (
-            name, ', '.join(map(lambda f: '`%s`=?' % (mappings.get(f).name or f), fields)), primarykey)
-        attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (name, primarykey)
+            table, ', '.join(map(lambda f: '`%s`=?' % (mappings.get(f).name or f), fields)), primarykey)
+        attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (table, primarykey)
         # 最后创建类的实例
         return type.__new__(cls, name, bases, attrs)
 
@@ -123,21 +124,20 @@ class Model(dict, metaclass=ModelMetaclass):
     def __setattr__(self, key, value):
         self[key] = value
 
+    def getValue(self, key):
+        return getattr(self, key, None)
+
+    def getValueOrDefault(self, key):
+        value = getattr(self, key, None)
+        if value is None:
+            field = self.__mappings__[key]
+            if field.default is not None:
+                value = field.default() if callable(field.default) else field.default
+                mylog.info('using default value for %s: %s' % (key, str(value)))
+                setattr(self, key, value)
+        return value
+
     def save(self):
-        fields = []
-        params = []
-        args = []
-        for k, v in self.__mappings__.items():
-            print('%s ====> %s' % (k, v))
-            fields.append(v.name)
-            params.append('?')
-            args.append(getattr(self, k, None))
-        sql = 'insert into %s (%s) values (%s)' % (self.__tableName__, ','.join(fields), ','.join(params))
-        mylog.info(sql)
-        print('arg is %s' % (str(args)))
-        insert(sql=sql, args=args)
-
-
-class Users(Model):
-    username = StringField('username')
-    password = StringField('password')
+        args = list(map(self.getValueOrDefault, self.__fields__))
+        args.append(self.getValueOrDefault(self.__primary_key__))
+        execute(self.__insert__, args)
