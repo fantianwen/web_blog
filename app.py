@@ -2,8 +2,7 @@
 # coding:utf-8
 
 from utils import mylog
-from flask import Flask, request, render_template
-from orm import Users
+from flask import Flask, request, render_template, session
 from jinja2 import Environment, FileSystemLoader
 
 import time, os, datetime
@@ -52,15 +51,21 @@ def init_jinja2(config, **kw):
 
 def create_app_and_init():
     # 初始化配置
-    app_config.init_config(app)
+    mode = app_config.init_config(app)
 
     init_jinja2(app.config)
     # 运行server
-    app.run()
+    app.run(debug=mode)
 
 
+@app.route('/<username>')
 @app.route('/')
-def index():
+def index(username=None):
+    if username is not None and username == 'fantianwen':
+        session['admin'] = True
+    else:
+        session['admin'] = False
+
     summary = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     blogs = [
         Blog(id='1', name='Test Blog', summary=summary, created_at=time.time() - 120),
@@ -70,16 +75,21 @@ def index():
     return render_template('welcome.html', blogs=blogs)
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login')
 def login():
-    username = request.form['username']
-    password = request.form['password']
-    mylog.info('%s and %s' % (username, password))
-    # save
-    user = Users(username=username, password=password)
-    mylog.info('%s' % user.__tableName__)
-    user.save()
-    return render_template('welcome.html')
+    return render_template('login.html')
+
+
+def validate(username, password):
+    if username == 'twfan_09@hotmail.com' and password == 'Fantianwen09':
+        return True
+    else:
+        return False
+
+
+@app.route('/write')
+def write():
+    return render_template('write.html')
 
 
 if __name__ == '__main__':

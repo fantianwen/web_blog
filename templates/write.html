@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章书写</title>
+
+    <link href="/static/css/write.css" type="text/css" rel="stylesheet"/>
+
+</head>
+<body ng-app="app">
+
+<div class="head">
+    <div class="head-container">
+        <h2 class="title">书写博客</h2>
+    </div>
+</div>
+
+
+<div class="blog-form">
+    <form action="/save_blog" method="post">
+        <div class="blog-title">
+            <p class="blog-title-1">标题</p>
+            <textarea class="blog-title-content" name="blog_title">输入标题</textarea>
+        </div>
+
+        <div class="blog-summary">
+            <p class="blog-summary-1">简要描述</p>
+            <textarea class="blog-summary-content" name="blog_summary">输入简要描述</textarea>
+        </div>
+
+        <div class="blog-content">
+            <p class="blog-content-1">内容</p>
+            <textarea class="blog-content-content" name="blog_content">输入新的博客内容</textarea>
+        </div>
+
+
+        <div class="blog-submit">
+            <button type="submit">保存</button>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

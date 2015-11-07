@@ -7,18 +7,11 @@
 <body>
 <h1>欢迎登陆</h1>
 
-<form action="/login" method="post">
+<form action="/begin_login" method="post">
     <legend>Please sign in:</legend>
 
-    {% if name %}
-
-    <p><input name="username" placeholder="Username" value="{{ name }}">
-
-        {% else %}
 
     <p><input name="username" placeholder="Username">
-
-        {% endif %}
 
 
     <p><input name="password" placeholder="Password" type="password"></p>

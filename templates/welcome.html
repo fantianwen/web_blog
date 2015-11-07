@@ -12,6 +12,7 @@
 </head>
 <body>
 
+
 <div class="header-wrap">
     <div class="header center-container">
         <a href="/" title="美乃滋酱の个人博客" class="logo">美乃滋酱の个人博客</a>
@@ -20,7 +21,10 @@
             <a href="/archive">archive</a>
             <a href="http://wiki.hustlzp.com" target="_blank">wiki</a>
             <a href="/about.md">about</a>
-            <a href="https://github.com/fantianwen" target="_blank">github</a>
+            {% if session['admin']%}
+            <a href="/write" target="_blank">write</a>
+            {% else %}
+            {% endif %}
         </div>
 
     </div>
@@ -42,12 +46,16 @@
     </div>
 </div>
 
-
 <div class="blank">
 </div>
 
-
 {% endfor %}
+
+<div class="foot-wrap">
+    <p>powered by <a href="http://flask.pocoo.org/" class="tech">flask</a></p>
+</div>
+
+
 
 
 </body>
