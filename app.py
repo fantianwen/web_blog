@@ -104,5 +104,11 @@ def save_blog():
     return render_template('/welcome.html')
 
 
+@app.route('/blog/<id>', methods=['GET'])
+def blog_id(id):
+    blog = Blog.find(id)
+    return blog.content
+
+
 if __name__ == '__main__':
     create_app_and_init()
