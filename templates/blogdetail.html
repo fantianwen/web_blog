@@ -14,7 +14,7 @@
 
         .content {
         font-family: 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
-        width: 660px;
+        width: 700px;
         max-width: 90%;
         margin: 0 auto;
         padding-top: 40px;
@@ -28,7 +28,7 @@
         }
         .title{
         font-family: 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
-        width: 660px;
+        width: 700px;
         max-width: 90%;
         margin: 0 auto;
         padding-top: 40px;
@@ -36,7 +36,7 @@
         }
         .time{
         margin-top: 10px;
-        width: 660px;
+        width: 700px;
         margin-left: auto;
         margin-right: auto;
         color: #a9a9a9;
@@ -55,7 +55,7 @@
 
         padding-top: 10px;
         padding-bottom: 10px;
-        padding-left: 10px;
+        padding-left: 20px;
         background: #fafad2;
         }
 
@@ -65,8 +65,32 @@
 
         padding-top: 10px;
         padding-bottom: 10px;
-        padding-left: 10px;
+        padding-left: 20px;
         background: #fafad2;
+        }
+        h2{
+        color:#6CA6CD;
+        }
+        code{
+        font-family: Monaco, Andale Mono, Courier New, monospace;
+        font-size:10px;
+        color:#D1D1D1;
+        }
+        blockquote{
+        position: relative;
+        line-height: 1.2em;
+        background: #fffdf4;
+        padding: 0.1em 1.5em 0.1em 1.5em;
+        }
+        blockquote:before{
+        position: absolute;
+        top: 33px;
+        left: -35px;
+        content: "\201C";
+        font-size: 8em;
+        color: #ddd;}
+        blockquote:p{
+        line-height: 1.8;
         }
 
 
@@ -90,7 +114,7 @@
 
 
 <div class="time">
-    {{blog.created_at}}
+    {{blog.created_at|datetime}}
 </div>
 
 

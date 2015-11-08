@@ -1,30 +1,25 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-from utils import mylog, highlight
+import time
+import os
+
 from flask import Flask, request, render_template, session, flash
 from jinja2 import Environment, FileSystemLoader
 
-import time, os, datetime
-from models import Blog, User, Comment, next_id
+from utils import mylog, highlight
+from models import Blog, next_id
 import app_config
+
 
 # 初始化flask的app
 app = Flask(__name__)
 
 
+@app.template_filter('datetime')
 def datetime_filter(t):
-    delta = int(time.time() - t)
-    if delta < 60:
-        return '1分钟前'
-    if delta < 3600:
-        return '%s分钟前' % (delta // 60)
-    if delta < 86400:
-        return '%s小时前' % (delta // 3600)
-    if delta < 604800:
-        return '%s天前' % (delta // 86400)
-    dt = datetime.fromtimestamp(t)
-    return '%s年%s月%s日' % (dt.year, dt.month, dt.day)
+    dt = time.strftime('%Y年 %m月 %d日', time.localtime(t))
+    return dt
 
 
 def init_jinja2(config, **kw):
@@ -53,7 +48,7 @@ def create_app_and_init():
     # 初始化配置
     mode = app_config.init_config(app)
 
-    init_jinja2(app.config)
+    init_jinja2(app.config, filters=dict(datetime=datetime_filter))
     # 运行server
     app.run(debug=mode)
 
