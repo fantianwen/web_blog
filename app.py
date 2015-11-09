@@ -4,11 +4,11 @@
 import time
 import os
 
-from flask import Flask, request, render_template, session, flash, redirect, url_for
+from flask import Flask, request, render_template, session, flash, redirect, url_for, Response
 from jinja2 import Environment, FileSystemLoader
 
-from utils import mylog, highlight
-from models import Blog, next_id
+from utils import mylog, highlight, common
+from models import Blog, Comment, User, next_id
 import app_config
 
 
@@ -18,8 +18,25 @@ app = Flask(__name__)
 
 @app.template_filter('datetime')
 def datetime_filter(t):
-    dt = time.strftime('%Y年 %m月 %d日', time.localtime(t))
-    return dt
+    formatted_time = time.strftime('%Y年 %m月 %d日', time.localtime(t))
+    return formatted_time
+
+
+@app.template_filter('detail_time')
+def detail_time_filter(t):
+    formatted_time = time.strftime('%Y年%m月%d日 %H:%M:%S', time.localtime(t))
+    return formatted_time
+
+
+def get_avator_or_404(user_name):
+    user = User.find_all('name= ?', [user_name])
+    return user.image
+
+
+@app.route('/avatar/<user_name>.png')
+def avatar(user_name):
+    user_image = get_avator_or_404(user_name=user_name)
+    return Response(user_image, mimetype='image/png')
 
 
 def init_jinja2(config, **kw):
@@ -114,12 +131,30 @@ def save_blog():
     return render_template('/welcome.html')
 
 
-@app.route('/blog/<id>', methods=['GET'])
+@app.route('/blog/<id>', methods=['GET', 'POST'])
 def blog_id(id):
+    guest_image_path = 'static/img/user.png'
+    if request.method == 'POST':
+        comment_content = request.form['comment_content']
+        comment_name = request.form['comment_name']
+        comment = Comment(id=next_id(), blog_id=id, user_id='guest', user_name=comment_name,
+                          user_image='',
+                          content=comment_content, created_at=time.time())
+        comment.save()
+        user = User(id=next_id(), email='', passwd='', admin=0, name=comment_name,
+                    image=common.save_image2char(guest_image_path),
+                    created_at=time.time())
+        _user = User.find_all('name= ?', [comment_name])
+        print(_user)
+        if _user is None:
+            user.save()
+        flash('comment and new user had been saved successfully!')
+
     blog = Blog.find(id)
     md_text = highlight.parse2markdown(blog.content)
     blog.html_content = md_text
-    return render_template('blogdetail.html', blog=blog)
+    comments = Comment.find_all('blog_id= ?', [id])
+    return render_template('blogdetail.html', blog=blog, comments=comments)
 
 
 if __name__ == '__main__':

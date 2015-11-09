@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>blog</title>
+    <title>{{blog.name}}</title>
 
     <style>
 
@@ -92,6 +92,40 @@
         blockquote:p{
         line-height: 1.8;
         }
+        .comments {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .comments-wrapper {
+        width: 700px;
+        max-width: 90%;
+        margin: 0 auto;
+        padding-top: 40px;
+        }
+        .comment{
+        width:100%;
+        height:100px;
+        }
+        .eof{
+        margin-top:80px;
+        text-align:center;
+        }
+        .info-wrapper{
+        width: 700px;
+        max-width: 90%;
+        margin: 0 auto;
+        padding-top: 10px;
+        }
+        .comment_name{
+        height:15px;
+        }
+        .comment-submit{
+        text-align:center;
+        margin-top:30px;
+        margin-bottom:100px;
+        }
 
 
     </style>
@@ -124,7 +158,46 @@
         {{blog.html_content|safe}}
     </div>
 
+    <div class="eof">
+        ·EOF·
+    </div>
+
 </div>
+
+{% for comment in comments %}
+<div class="comments">
+    <div class="comments-wrapper">
+        <img src="{{ url_for('avatar', user_name=comment.user_name) }}">
+
+        {{comment.user_name}}
+        {{comment.created_at|detail_time}}
+
+        <div>{{comment.content}}</div>
+
+    </div>
+</div>
+{% endfor %}
+
+
+<form action="/blog/{{blog.id}}" method="post">
+    <div class="comments">
+
+        <div class="comments-wrapper">
+            <textarea class="comment" name="comment_content"></textarea>
+        </div>
+
+        <div class="info-wrapper">
+            name:
+            <input type="text" name="comment_name" class="comment_name">
+        </div>
+
+    </div>
+
+    <div class="comment-submit">
+        <button type="submit">添加评论</button>
+    </div>
+
+</form>
 
 
 </body>
