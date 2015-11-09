@@ -25,15 +25,15 @@ def block_code(text, lang, inlinestyles=False, linenos=False):
         )
         code = highlight(text, lexer, formatter)
         if linenos:
-            return '<div class="highlight-wrapper">%s</div>\n' % code
+            return '<div class="highlight">%s</div>\n' % code  # 这句中的highlight是高亮代码的祖先选择器
         return code
     except:
-        return '<pre class="%s"><code >%s</code></pre>\n' % (
+        return '<pre class="%s"><code>%s</code></pre>\n' % (
             lang, mistune.escape(text)
         )
 
 
-class HighlightMixin(mistune.Renderer):
+class HighlightMixin(object):
     def block_code(self, text, lang):
         # renderer has an options
         inlinestyles = self.options.get('inlinestyles')
@@ -41,9 +41,11 @@ class HighlightMixin(mistune.Renderer):
         return block_code(text, lang, inlinestyles, linenos)
 
 
+class TocRenderer(HighlightMixin, mistune.Renderer):
+    pass
+
+
 def parse2markdown(text):
-    renderer = HighlightMixin()
-    markdown = mistune.Markdown(renderer=renderer)
+    renderer = TocRenderer(linenos=False, inlinestyles=False)
+    markdown = mistune.Markdown(escape=True, renderer=renderer)
     return markdown(text)
-
-

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{blog.name}}</title>
+    <link href="/static/css/pygments.css" type="text/css" rel="stylesheet"/>
 
     <style>
 
@@ -13,12 +14,13 @@
         }
 
         .content {
-        font-family: 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
+        font-family: "source-serif-pro", "STSong", "SimSun", "Times New Roman", Times, serif;
         width: 700px;
         max-width: 90%;
         margin: 0 auto;
         padding-top: 40px;
-        font-size: 1.1em;
+        font-size: 1.2em;
+        line-height: 1.5;
         }
 
         .title-wrapper{
@@ -42,39 +44,14 @@
         color: #a9a9a9;
         }
 
-        .python{
-        border-top: solid 1px #eee;
-        border-bottom: solid 1px #eee;
 
-        padding-top: 10px;
-        padding-bottom: 10px;
-        }
-        .sql{
-        border-top: solid 1px #eee;
-        border-bottom: solid 1px #eee;
-
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 20px;
-        background: #fafad2;
-        }
-
-        .java{
-        border-top: solid 1px #eee;
-        border-bottom: solid 1px #eee;
-
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 20px;
-        background: #fafad2;
-        }
         h2{
-        color:#6CA6CD;
+        color:#F08080;
         }
         code{
         font-family: Monaco, Andale Mono, Courier New, monospace;
         font-size:10px;
-        color:#D1D1D1;
+
         }
         blockquote{
         position: relative;
@@ -88,7 +65,7 @@
         left: -35px;
         content: "\201C";
         font-size: 8em;
-        color: #ddd;}
+        color: #FF7F24;}
         blockquote:p{
         line-height: 1.8;
         }

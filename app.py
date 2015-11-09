@@ -122,6 +122,7 @@ def save_blog():
     id = next_id()
     user_id = 'admin'
     user_name = 'fantianwen'
+    # TODO 添加自己的头像
     user_image = ''
     name = request.form['blog_title']
     summary = request.form['blog_summary']
