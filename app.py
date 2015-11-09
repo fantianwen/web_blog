@@ -4,7 +4,7 @@
 import time
 import os
 
-from flask import Flask, request, render_template, session, flash
+from flask import Flask, request, render_template, session, flash, redirect, url_for
 from jinja2 import Environment, FileSystemLoader
 
 from utils import mylog, highlight
@@ -54,13 +54,28 @@ def create_app_and_init():
 
 
 @app.route('/<username>')
-@app.route('/')
 def index(username=None):
     if username is not None and username == 'fantianwen':
         session['admin'] = True
     else:
         session['admin'] = False
-    blogs = Blog.find_all(orderBy='created_at desc')
+    return redirect(url_for('welcome'))
+
+
+@app.route('/')
+def welcome():
+    session['page_number'] = 1
+    blogs = Blog.find_all(orderBy='created_at desc', limit=(0, 5))
+    return render_template('welcome.html', blogs=blogs)
+
+
+@app.route('/page/<page_number>')
+def show_page(page_number):
+    int_page_number = int(page_number)
+    session['page_number'] = int_page_number
+    if page_number == 1:
+        return redirect('/')
+    blogs = Blog.find_all(orderBy='created_at desc', limit=((int_page_number - 1) * 5, 5))
     return render_template('welcome.html', blogs=blogs)
 
 

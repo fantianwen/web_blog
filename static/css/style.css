@@ -85,8 +85,29 @@
     height: 100px;
 }
 .tech{
+    color: #556b2f;
     text-decoration: none;
 }
+.pager {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:50px;
+}
 
+.pager-wrapper {
+    width: 660px;
+    max-width: 90%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+
+.pre {
+    float: left
+}
+
+.next {
+    float: right;
+}
 
 

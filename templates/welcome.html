@@ -38,7 +38,7 @@
     </h2>
 
     <div class="time">
-        <span class="date">{{blog.created_at}}</span>
+        <span class="date">{{blog.created_at|datetime}}</span>
     </div>
 
     <div class="post-body">
@@ -51,11 +51,21 @@
 
 {% endfor %}
 
-<div class="foot-wrap">
-    <p>powered by <a href="http://flask.pocoo.org/" class="tech">flask</a></p>
+<div class="pager">
+    <div class="pager-wrapper">
+        {% if session['page_number']!=1 %}
+        <a href="/page/{{session['page_number']-1}}" class="pre">← new posts</a>
+        {% else %}
+        {% endif %}
+        <a href="/page/{{session['page_number']+1}}" class="next">older posts →</a>
+    </div>
+
 </div>
 
 
+<div class="foot-wrap">
+    <p>powered by <a href="http://flask.pocoo.org/" class="tech">flask</a></p>
+</div>
 
 
 </body>
