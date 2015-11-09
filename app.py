@@ -29,16 +29,13 @@ def detail_time_filter(t):
 
 
 def get_avator_or_404(user_name):
-    # users = User.find_all('name= ?', [user_name])
-    # print('长度是。。。。。。。', len(users))
-    guest_image_path = 'static/img/user.png'
-    image = common.save_image2char(guest_image_path)
+    users = User.find_all('name= ?', [user_name])
+    image = users[0].image
     return image
 
 
 @app.route('/avatar/<user_name>.png')
 def avatar(user_name):
-    mylog.info('user_name is %s' % user_name)
     user_image = get_avator_or_404(user_name=user_name)
     return Response(user_image, mimetype='image/png')
 
@@ -87,6 +84,10 @@ def index(username=None):
 def welcome():
     session['page_number'] = 1
     blogs = Blog.find_all(orderBy='created_at desc', limit=(0, 8))
+    for blog in blogs:
+        md = highlight.parse2markdown(blog.summary)
+        blog.md_summary = md
+
     return render_template('welcome.html', blogs=blogs)
 
 
@@ -138,7 +139,6 @@ def save_blog():
 
 @app.route('/blog/<id>', methods=['GET', 'POST'])
 def blog_id(id):
-    guest_image_path = 'static/img/user.png'
     if request.method == 'POST':
         comment_content = request.form['comment_content']
         comment_name = request.form['comment_name']
@@ -146,9 +146,11 @@ def blog_id(id):
                           user_image='',
                           content=comment_content, created_at=time.time())
         comment.save()
+        image = common.create_avatar_by_name(comment_name)
         user = User(id=next_id(), email='', passwd='', admin=0, name=comment_name,
-                    image=common.save_image2char(guest_image_path),
+                    image=image,
                     created_at=time.time())
+        mylog.info(image)
         # TODO 先使用name来进行判定是否唯一，后期希望能够使用email来判断是否唯一
         _user = User.find_all('name= ?', [comment_name])
         if len(_user) == 0:

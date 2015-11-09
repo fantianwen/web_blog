@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
     <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/pygments.css" type="text/css" rel="stylesheet"/>
     <script src="/static/js/jquery.min.js"></script>
-
     <script type="text/javascript" src="/static/js/blog.js">
     </script>
 
@@ -42,7 +42,7 @@
     </div>
 
     <div class="post-body">
-        <p>{{blog.summary}}</p>
+        {{blog.md_summary|safe}}
     </div>
 </div>
 
