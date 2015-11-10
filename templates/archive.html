@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>archive</title>
+
+    <style>
+
+        .content {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        }
+
+        .content-wrapper {
+        width: 700px;
+        height: 300px;
+        max-width: 90%;
+        margin: 0 auto;
+        }
+
+        .year {
+        text-align: center;
+        }
+
+        .blog-lists {
+
+        }
+
+        .blog-lists-date {
+        width: 150px;
+        float: left;
+        }
+
+        .blog-lists-title {
+        width: 520px;
+        float: right;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+<div class="content">
+    {% for blog in blogs %}
+
+    <div class="content-wrapper">
+
+        <div class="year">
+            {{blog[0].year}}
+        </div>
+
+        {% for b in blog %}
+        <div class="blog-lists">
+            <div class="blog-lists-date">
+                {{b.created_at}}
+            </div>
+            <div class="blog-lists-title">
+                {{b.name}}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+</body>
+</html>

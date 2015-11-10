@@ -176,6 +176,10 @@ class Model(dict, metaclass=ModelMetaclass):
                 args.extend(limit)
             else:
                 raise ValueError('Invalid limit value: %s' % str(limit))
+        groupby = kw.get('groupby', None)
+        if groupby:
+            sql.append('group by')
+            sql.append(groupby)
         re = select(' '.join(sql), args)
         return [cls(**r) for r in re]
 
@@ -185,7 +189,6 @@ class Model(dict, metaclass=ModelMetaclass):
         if len(rs) == 0:
             return None
         return cls(**rs[0])
-
 
     def save(self):
         args = list(map(self.getValueOrDefault, self.__fields__))

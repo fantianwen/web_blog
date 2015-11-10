@@ -166,5 +166,20 @@ def blog_id(id):
     return render_template('blogdetail.html', blog=blog, comments=comments)
 
 
+@app.route('/archive', methods=['GET'])
+def archive():
+    # 获取年
+    years = Blog.find_all(groupby='year')
+    # 根据‘year’获取不同年的blog数据
+    blogs = []
+    for year_blog in years:
+        year = year_blog.year
+        # 根据year获取该年的blogs
+        blogs_year = Blog.find_all('year= ?', [year])
+        mylog.info(blogs_year)
+        blogs.append(blogs_year)
+    return render_template('archive.html', blogs=blogs)
+
+
 if __name__ == '__main__':
     create_app_and_init()
