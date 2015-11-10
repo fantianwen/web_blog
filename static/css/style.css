@@ -1,3 +1,6 @@
+body{
+font-family: "source-serif-pro", "STSong", "SimSun", "Times New Roman", Times, serif;
+}
 .header-wrap {
     width: 100%;
     border-bottom: solid 1px #eee;
@@ -54,10 +57,11 @@
     max-width: 90%;
     margin: 0 auto;
     padding-top: 40px;
+
 }
 
-.title a {
-    color: #000;
+#title {
+    text-decoration:none;
 }
 
 .time {
@@ -110,4 +114,7 @@
     float: right;
 }
 
+.time{
+font-family: 'adelle', 'Georgia', serif;
+}
 

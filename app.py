@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 @app.template_filter('datetime')
 def datetime_filter(t):
-    formatted_time = time.strftime('%Y年 %m月 %d日', time.localtime(t))
+    formatted_time = time.strftime('%b %d,%Y', time.localtime(t))
     return formatted_time
 
 
