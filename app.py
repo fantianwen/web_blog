@@ -129,9 +129,11 @@ def save_blog():
     summary = request.form['blog_summary']
     content = request.form['blog_content']
     created_at = time.time()
-
+    year = common.get_year(created_at)
+    month = common.get_month(created_at)
+    day = common.get_day(created_at)
     blog = Blog(id=id, user_id=user_id, user_name=user_name, user_image=user_image, name=name, summary=summary,
-                content=content, created_at=created_at)
+                content=content, created_at=created_at, year=year, month=month, day=day)
     blog.save()
     flash('保存成功')
     return render_template('/welcome.html')

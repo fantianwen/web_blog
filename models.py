@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-import time, uuid
+import time
+import uuid
 
-from orm import Model, StringField, BooleanField, FloatField, TextField
+from orm import Model, StringField, BooleanField, FloatField, TextField, IntergerField
 
 
 def next_id():
@@ -33,6 +34,9 @@ class Blog(Model):
     summary = StringField(ddl='varchar(200)')
     content = TextField()
     created_at = FloatField(default=time.time)
+    year = IntergerField()
+    month = IntergerField()
+    day = IntergerField()
 
 
 class Comment(Model):
