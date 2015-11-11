@@ -36,6 +36,9 @@
         width: 520px;
         float: right;
         }
+        .blog-lists-title a{
+        text-decoration:none;
+        }
 
 
     </style>
@@ -55,10 +58,10 @@
         {% for b in blog %}
         <div class="blog-lists">
             <div class="blog-lists-date">
-                {{b.created_at}}
+                {{b.created_at|datetime}}
             </div>
             <div class="blog-lists-title">
-                {{b.name}}
+                <a href="/blog/{{b.id}}">{{b.name}}</a>
             </div>
         </div>
         {% endfor %}

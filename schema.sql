@@ -28,6 +28,7 @@ create table blogs(
 	`name` varchar(50) not null,
 	`summary` varchar(200) not null,
 	`content` mediumtext not null,
+	`category` varchar(80) not null,
 	`created_at` real not null,
 	`year` bigint not null,
 	`month` bigint not null,

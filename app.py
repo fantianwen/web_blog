@@ -88,7 +88,13 @@ def welcome():
         md = highlight.parse2markdown(blog.summary)
         blog.md_summary = md
 
-    return render_template('welcome.html', blogs=blogs)
+    # 侧边栏的分类
+    blog_categories = Blog.find_all(groupby='category')
+    blogs_categories = []
+    for category in blog_categories:
+        blog_catrgory = Blog.find_all('category=?', [category.category])
+        blogs_categories.append(blog_catrgory)
+    return render_template('welcome.html', blogs=blogs, blogs_categories=blogs_categories)
 
 
 @app.route('/page/<page_number>')
@@ -128,12 +134,13 @@ def save_blog():
     name = request.form['blog_title']
     summary = request.form['blog_summary']
     content = request.form['blog_content']
+    category = request.form['blog_category']
     created_at = time.time()
     year = common.get_year(created_at)
     month = common.get_month(created_at)
     day = common.get_day(created_at)
     blog = Blog(id=id, user_id=user_id, user_name=user_name, user_image=user_image, name=name, summary=summary,
-                content=content, created_at=created_at, year=year, month=month, day=day)
+                content=content, category=category, created_at=created_at, year=year, month=month, day=day)
     blog.save()
     flash('保存成功')
     return render_template('/welcome.html')

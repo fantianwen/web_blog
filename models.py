@@ -33,6 +33,7 @@ class Blog(Model):
     name = StringField(ddl='varchar(50)')
     summary = StringField(ddl='varchar(200)')
     content = TextField()
+    category = StringField(ddl='varchar(80)')
     created_at = FloatField(default=time.time)
     year = IntergerField()
     month = IntergerField()
