@@ -104,12 +104,14 @@ def show_page(page_number):
     if page_number == 1:
         return redirect('/')
     blogs = Blog.find_all(orderBy='created_at desc', limit=((int_page_number - 1) * 8, 8))
-    return render_template('welcome.html', blogs=blogs)
 
+    blog_categories = Blog.find_all(groupby='category')
+    blogs_categories = []
+    for category in blog_categories:
+        blog_catrgory = Blog.find_all('category=?', [category.category])
+        blogs_categories.append(blog_catrgory)
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
+    return render_template('welcome.html', blogs=blogs, blogs_categories=blogs_categories)
 
 
 def validate(username, password):

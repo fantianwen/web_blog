@@ -1,0 +1,142 @@
+.content-wrapper {
+width: 100%;
+margin-left: auto;
+margin-right: auto;
+}
+
+.content {
+font-family: "source-serif-pro", "STSong", "SimSun", "Times New Roman", Times, serif;
+width: 700px;
+max-width: 90%;
+margin: 0 auto;
+padding-top: 40px;
+font-size: 1.2em;
+line-height: 1.5;
+}
+
+.title-wrapper {
+width: 100%;
+margin-left: auto;
+margin-right: auto;
+}
+
+.title {
+font-family: 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
+width: 700px;
+max-width: 90%;
+margin: 0 auto;
+padding-top: 40px;
+font-size: 80px;
+}
+
+.time {
+margin-top: 10px;
+width: 700px;
+margin-left: auto;
+margin-right: auto;
+color: #a9a9a9;
+font-size:20px;
+font-family: 'adelle', 'Georgia', serif;
+}
+
+h2 {
+color: #F08080;
+}
+
+code {
+font-family: Monaco, Andale Mono, Courier New, monospace;
+font-size: 10px;
+
+}
+
+blockquote {
+position: relative;
+line-height: 1.2em;
+background: #fffdf4;
+padding: 0.1em 1.5em 0.1em 1.5em;
+}
+
+blockquote:before {
+padding-top: 12px;
+position: absolute;
+top: 33px;
+left: -35px;
+content: "\201C";
+font-size: 8em;
+color: #FF7F24;
+}
+
+blockquote:p {
+line-height: 1.8;
+}
+
+
+.eof {
+margin-top: 80px;
+text-align: center;
+}
+
+.info-wrapper {
+width: 10px;
+height:10px;
+margin: 0 auto;
+padding-top: 10px;
+
+}
+
+.comment_name {
+height: 15px;
+}
+
+.comment-submit {
+text-align: center;
+margin-top: 30px;
+margin-bottom: 100px;
+}
+
+.comment {
+width:700px;
+height:130px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.comments {
+width: 700px;
+margin-left: auto;
+margin-right: auto;
+overflow:hidden;zoom:1;
+}
+
+
+.comments-wrapper {
+width:100px;
+height:100px;
+float:left;
+background:#aaa;
+}
+.user-image{
+height:100%;
+width:100%;
+}
+
+.comment_user_info{
+width:600px;
+height:20px;
+float:right;
+background:#bbb;
+}
+.comment_content{
+width:600px;
+height:90px;
+float:right;
+}
+
+.make_comments{
+width: 700px;
+margin-left: auto;
+margin-right: auto;
+}
+img{
+max-width: 100%;
+}

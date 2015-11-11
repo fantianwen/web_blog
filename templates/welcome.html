@@ -3,29 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
     <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/pygments.css" type="text/css" rel="stylesheet"/>
     <script src="/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/blog.js">
     </script>
     <style>
-        *{ margin:0; padding:0; }
-        html{ height:100%; }
-        p{ padding:10px 0; }
-        body{ min-height:100%; font-family:arial; position:relative; }
-        body.sideMenu{ margin:0; -webkit-transform:none; transform:none; }
-        #sideToggle{ display:none; }
-        #sideToggle:checked + aside{ left:0; }
-        #sideToggle:checked ~ #wrap{ padding-left:220px; }
-        body > aside{ position:absolute; top:0; bottom:0; left:-200px; width:200px; background:#f1103a; transition:0.2s
-        ease-out; -webkit-transition:0.2s ease-out; }
-        body > aside > h2{ color:#FFF; text-align:center; font-weight:normal; padding:10px; }
-        #wrap{ margin-left:20px; padding:10px; transition:0.25s ease-out; -webkit-transition:0.25s ease-out;}
-        #wrap > label{ display:inline-block; }
-        #wrap > label{
-        background:#f1103a;
-        border-radius:50px;
-        color: #FFF;
+        * {
+        margin: 0;
+        padding: 0;
+        }
+
+        html {
+        height: 100%;
+        }
+
+        p {
+        padding: 10px 0;
+        }
+
+        body {
+        min-height: 100%;
+        font-family: arial;
+        position: relative;
+        }
+
+        body.sideMenu {
+        margin: 0;
+        -webkit-transform: none;
+        transform: none;
+        }
+
+        #sideToggle {
+        display: none;
+        }
+
+        #sideToggle:checked + aside {
+        left: 0;
+        }
+
+        #sideToggle:checked ~ #wrap {
+        padding-left: 310px;
+        }
+
+        body > aside {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -300px;
+        width: 300px;
+        background: #EE7600;
+        transition: 0.2s ease-out;
+        -webkit-transition: 0.2s ease-out;
+        }
+
+        body > aside > h2 {
+        text-align: center;
+        font-weight: normal;
+        padding: 10px;
+        }
+
+        #wrap {
+        margin-left: 20px;
+        padding: 10px;
+        transition: 0.25s ease-out;
+        -webkit-transition: 0.25s ease-out;
+        }
+
+        #wrap label{
+        transition: background 0.3s ease-in-out;
+        }
+
+        #wrap > label {
+        display: inline-block;
+        }
+
+        #wrap > label {
+        background: #EE7600;
+        border-radius: 50px;
+        color: #FFD39B;
         cursor: pointer;
         display: block;
         font-family: Courier New;
@@ -37,7 +94,36 @@
         text-align: center;
         text-shadow: 0 -4px;
         }
-        #wrap > label:hover{ background:#000; }
+
+        #wrap > label:hover {
+        background: #FFDEAD;
+        }
+
+        .side-image-wrapper {
+        height: 250px;
+        width: 100%;
+        text-align : center;
+        background: #EE7600;
+        }
+
+        .side-image {
+        border-radius: 10px;
+        width: 50%;
+        position: absolute;
+        left: 75px;
+        top: 50px;
+        }
+
+        .category-title {
+        font-family: 'Tangerine', 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
+        font-size: 30px;
+        }
+
+        .category-blog-name {
+        font-family: 'Tangerine', 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
+        font-size: 18px;
+        text-decoration: none;
+        }
     </style>
 
 </head>
@@ -45,29 +131,27 @@
 
 <input type='checkbox' id='sideToggle'>
 <aside>
-
+    <div class="side-image-wrapper">
+        <img src="/static/img/avatar.png" class="side-image">
+    </div>
     <div class="accordion">
-
         {% for blog_category in blogs_categories %}
         <div class="section">
-            <input type="radio" name="accordion-1" id="section-3" value="toggle"/>
-            <label for="section-3"><span>{{blog_category[0].category}}</span></label>
+            <input type="radio" name="accordion-1" id="section-{{blog_category[0].category}}" value="toggle"/>
+            <label for="section-{{blog_category[0].category}}" class="category-title"><span>{{blog_category[0].category}}</span></label>
 
             <div class="content">
                 <ul>
                     {% for b in blog_category %}
-
-                    <li><i class="fa fa-coffee"></i><span>{{b.name}}</span></li>
-
+                    <li><i class="fa fa-coffee"></i><span><a href="/blog/{{b.id}}"
+                                                             class="category-blog-name">{{b.name}}</a></span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
         {% endfor %}
-
     </div>
-
-
 </aside>
 <div id='wrap'>
     <label id='sideMenuControl' for='sideToggle'>=</label>
@@ -80,7 +164,7 @@
 
         <div class="links">
             <a href="/archive">archive</a>
-            <a href="http://wiki.hustlzp.com" target="_blank">wiki</a>
+            <a href="/" target="_blank">wiki</a>
             <a href="/about.md">about</a>
             {% if session['admin']%}
             <a href="/write" target="_blank">write</a>
