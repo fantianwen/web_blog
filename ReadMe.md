@@ -1,7 +1,6 @@
 # web_blog项目学习
 
 ##一、项目结构和文件配置
-![web_blog](https://raw.githubusercontent.com/fantianwen/MarkDown/master/python/web_blog%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png)
 
 其中：
 	config：项目的基本配置，包括：数据库的配置，flask的配置，jinja2的配置。
