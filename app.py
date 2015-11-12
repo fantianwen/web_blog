@@ -184,7 +184,7 @@ def archive():
     for year_blog in years:
         year = year_blog.year
         # 根据year获取该年的blogs
-        blogs_year = Blog.find_all('year= ?', [year])
+        blogs_year = Blog.find_all('year= ?', [year], orderBy='created_at desc')
         mylog.info(blogs_year)
         blogs.append(blogs_year)
     return render_template('archive.html', blogs=blogs)

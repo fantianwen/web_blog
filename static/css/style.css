@@ -113,14 +113,20 @@ font-family: "source-serif-pro", "STSong", "SimSun", "Times New Roman", Times, s
     max-width: 90%;
     margin: 0 auto;
     padding-top: 30px;
+    font-size:30px;
+    font-family: 'Tangerine', serif;
+
 }
 
 .pre {
     float: left;
+    text-decoration:none;
+
 }
 
 .next {
     float: right;
+    text-decoration:none;
 }
 
 .time{
@@ -277,4 +283,120 @@ ul li:hover i {
 .logo i {
   font-size: 70px;
   color: #FF6347;
+}
+
+
+* {
+margin: 0;
+padding: 0;
+}
+
+html {
+height: 100%;
+}
+
+p {
+padding: 10px 0;
+}
+
+body {
+min-height: 100%;
+font-family: arial;
+position: relative;
+}
+
+body.sideMenu {
+margin: 0;
+-webkit-transform: none;
+transform: none;
+}
+
+#sideToggle {
+display: none;
+}
+
+#sideToggle:checked + aside {
+left: 0;
+}
+
+#sideToggle:checked ~ #wrap {
+padding-left: 310px;
+}
+
+body > aside {
+position: absolute;
+top: 0;
+bottom: 0;
+left: -300px;
+width: 300px;
+background: #EE7600;
+transition: 0.2s ease-out;
+-webkit-transition: 0.2s ease-out;
+}
+
+body > aside > h2 {
+text-align: center;
+font-weight: normal;
+padding: 10px;
+}
+
+#wrap {
+margin-left: 20px;
+padding: 10px;
+transition: 0.25s ease-out;
+-webkit-transition: 0.25s ease-out;
+}
+
+#wrap label{
+transition: background 0.3s ease-in-out;
+}
+
+#wrap > label {
+display: inline-block;
+}
+
+#wrap > label {
+background: #EE7600;
+border-radius: 50px;
+color: #FFD39B;
+cursor: pointer;
+display: block;
+font-family: Courier New;
+font-size: 25px;
+font-weight: bold;
+width: 30px;
+height: 30px;
+line-height: 35px;
+text-align: center;
+text-shadow: 0 -4px;
+}
+
+#wrap > label:hover {
+background: #FFDEAD;
+}
+
+.side-image-wrapper {
+height: 250px;
+width: 100%;
+text-align : center;
+background: #EE7600;
+}
+
+.side-image {
+border-radius: 10px;
+width: 50%;
+position: absolute;
+left: 75px;
+top: 50px;
+}
+
+.category-title {
+font-family: 'Tangerine', 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
+font-size: 30px;
+}
+
+.category-blog-name {
+font-family: 'Tangerine', 'adelle', 'Georgia', "Kaiti SC", "KaiTi", serif;
+font-size: 18px;
+text-decoration: none;
 }
