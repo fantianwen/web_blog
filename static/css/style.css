@@ -64,6 +64,11 @@ font-family: "source-serif-pro", "STSong", "SimSun", "Times New Roman", Times, s
 #title {
     text-decoration:none;
     color:#000;
+    transition: color 0.2s ease-in-out;
+}
+
+#title:hover{
+    color:#CD5B45;
 }
 
 .time {
