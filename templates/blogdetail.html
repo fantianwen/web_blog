@@ -5,13 +5,31 @@
     <title>{{blog.name}}</title>
     <link href="/static/css/pygments.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/blog.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    <style>
+
+
+    </style>
 </head>
 <body>
 
-<div class="head">
 
+<div class="header-wrap">
+    <div class="header center-container">
+        <a href="/" title="美乃滋酱の个人博客" class="logo">美乃滋酱の个人博客</a>
 
+        <div class="links">
+            <a href="/archive">archive</a>
+            <a href="/blog/0014473261101972d31e0092c81454086e36d443a7673ea000">about</a>
+            {% if session['admin']%}
+            <a href="/write" target="_blank">write</a>
+            {% else %}
+            {% endif %}
+        </div>
+
+    </div>
 </div>
+
 
 <div class="title-wrapper">
 
@@ -46,13 +64,14 @@
     </div>
 
     <div class="comment_user_info">
-        {{comment.user_name}}
-        {{comment.created_at|detail_time}}
+        <div class="user_name">
+            <span>{{comment.user_name}}</span>
+        </div>
+        <div class="created_at">
+            <span>{{comment.created_at|detail_time}}</span>
+        </div>
     </div>
-
     <div class="comment_content">{{comment.content}}</div>
-
-
 </div>
 
 

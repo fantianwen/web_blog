@@ -29,6 +29,10 @@ background-size:100% 100%;
     font-size: 1.2em;
     color: black;
     text-decoration: none;
+    transition:color 0.3s ease-in-out;
+}
+.header-wrap .header .logo:hover{
+    color:#FFD39B;
 }
 
 .header-wrap .header .links {
@@ -94,6 +98,7 @@ background-size:100% 100%;
     margin: 0 auto;
     padding-top: 30px;
     font-size:22px;
+    color:#3B3B3B ;
 }
 
 .blank {
