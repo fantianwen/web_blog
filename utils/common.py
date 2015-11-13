@@ -23,7 +23,7 @@ def rnd_color():
     return (rnd1, rnd2, rnd3)
 
 
-# 将一个Image类型的图片对象转化成二进制数据
+# 将一个Image类型的图片对象转化成十六进制数据
 def image2hex(image):
     output = io.BytesIO()
     image.save(output, format='JPEG')
