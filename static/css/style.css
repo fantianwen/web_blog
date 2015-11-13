@@ -1,5 +1,10 @@
 body{
 font-family: "source-serif-pro", "STSong", "SimSun", "Times New Roman", Times, serif;
+background-image:url(/static/img/background.jpg);
+background-attachment: fixed;
+filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+-moz-background-size:100% 100%;
+background-size:100% 100%;
 }
 .header-wrap {
     width: 100%;
