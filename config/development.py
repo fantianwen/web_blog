@@ -13,7 +13,7 @@ class DevelopmentConfig(Config):
     web的访问地址
     '''
 
-    WEB_URL = 'http://127.0.0.1:5000'
+    WEB_URL = 'http://123.57.165.54'
 
     SECRET_KEY = 'hahah'
 
@@ -21,12 +21,12 @@ class DevelopmentConfig(Config):
     mysql的相关配置
     '''
 
-    HOST = '127.0.0.1'
+    HOST = '123.57.165.54'
 
     PORT = 3306
 
-    USER = 'root'
+    USER = 'blog'
 
     PASSWORD = 'Fantianwen09'
 
-    DB = 'awesome'
+    DB = 'blog'
