@@ -114,13 +114,6 @@ def show_page(page_number):
     return render_template('welcome.html', blogs=blogs, blogs_categories=blogs_categories)
 
 
-def validate(username, password):
-    if username == 'twfan_09@hotmail.com' and password == 'Fantianwen09':
-        return True
-    else:
-        return False
-
-
 @app.route('/write')
 def write():
     return render_template('write.html')
