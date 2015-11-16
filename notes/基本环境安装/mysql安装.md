@@ -3,7 +3,7 @@
 
 1、查看服务器是否已经安装了mysql
 
-```
+```shell
 rpm -qa | grep mysql
 ```
 
@@ -16,7 +16,7 @@ mysql-server-5.1.73-5.el6_6.x86_64
 
 2、安装
 
-```
+```shell
 yum install mysql-server
 ```
 
@@ -24,13 +24,13 @@ yum install mysql-server
 
 先启动mysql服务
 
-```
+```shell
 chkconfig mysqld on
 ```
 
 查看状态：
 
-```
+```shell
 chkconfig --list mysqld
 ```
 
@@ -41,13 +41,13 @@ chkconfig --list mysqld
 
 启动
 
-```
+```shell
 /etc/rc.d/init.d/mysqld start
 ```
 
 启动成功之后，设置密码
 
-```
+```shell
 /usr/bin/mysqladmin -u root password '新的密码'
 ```
 
@@ -62,7 +62,7 @@ show variables like '%char%';
 看到：
 
 
-```
+```sql
 +--------------------------+----------------------------+
 | Variable_name            | Value                      |
 +--------------------------+----------------------------+
@@ -81,13 +81,13 @@ show variables like '%char%';
 
 退出mysql，查看`/etc/my.cnf`文件
 
-```
+```shell
 vim /etc/my.cnf
 ```
 
 将该文本中新增如下：
 
-```
+```sql
 [mysqld]
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
@@ -106,7 +106,7 @@ default-character-set=utf8
  
  5、新建用户，并授权某数据库
  
- ```
+ ```sql
  grant all privileges on blog.* to blog@localhost identified by '123456';
  ```
  

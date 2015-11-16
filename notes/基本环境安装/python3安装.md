@@ -6,32 +6,32 @@
 
 1、下载 python3.5的源代码
 
-```
+```shell
 wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz
 ```
 在云环境中还是挺快的，一会就下载好了
 
 2、解压缩
 
-```
+```shell
 tar zxvf Python-3.5.0.tgz
 ```
 
 3、进入解压缩后的文件
 
-```
+```shell
 cd Python-3.5.0
 ```
 
 4、指定编译成功后安装的目录
 
-```
+```shell
 ./configure --prefix=/usr/local/python3
 ```
 
 5、编译和安装
 
-```
+```shell
 make -j8 && make install 
 ```
 
@@ -41,19 +41,19 @@ make -j8 && make install
 
 查看PATH环境变量
 
-```
+```shell
 echo $APTH
 ```
 
 设置
 
-```
+```shell
 PATH=$PATH:/PYTHON_HOME/bin
 ```
 
 再次查看,检查是否已经添加
 
-```
+```shell
 echo $PATH
 ```
 
@@ -63,7 +63,7 @@ echo $PATH
 
 需要安装`gcc`
 
-```
+```shell
 yum install gcc
 ```
 
@@ -76,7 +76,7 @@ No package openssl-devel available.
 
 在`centos`中使用`yum`进行安装
 
-```
+```shell
 yum install openssl-devel
 ```
 
