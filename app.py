@@ -4,7 +4,7 @@
 import time
 import os
 
-from flask import Flask, request, render_template, session, flash, redirect, url_for, Response
+from flask import Flask, request, render_template, session, flash, redirect, url_for, Response, jsonify
 from jinja2 import Environment, FileSystemLoader
 
 from utils import mylog, highlight, common
@@ -181,6 +181,25 @@ def archive():
         mylog.info(blogs_year)
         blogs.append(blogs_year)
     return render_template('archive.html', blogs=blogs)
+
+
+# api书写
+
+# 根据blog的id获取blog
+@app.route('/api/blog/<id>', methods=['GET'])
+def get_blog(id):
+    blog = Blog.find(id)
+    return jsonify(id=blog.getValue('id'), name=blog.getValue('name'), summary=blog.getValue('summary'),
+                   content=blog.getValue('content'))
+
+
+@app.route('/api/blogs/<page_number>')
+def get_blogs(page_number):
+    int_page_number = int(page_number)
+    blogs = Blog.find_all(orderBy='created_at desc', limit=((int_page_number - 1) * 8, 8))
+    return jsonify(blogs=blogs)
+
+
 
 
 if __name__ == '__main__':
