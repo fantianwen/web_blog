@@ -1,0 +1,20 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
+# filter idea file
+*.iml
+
+#filter idea dir
+/.idea/
+
+#filter image
+*.png
+*.jpg
+*.jpeg
+*.gif
