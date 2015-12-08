@@ -4,8 +4,10 @@
 import time
 import os
 
-from flask import Flask, request, render_template, session, flash, redirect, url_for, Response, jsonify
+from flask import Flask, request, render_template, session, flash, redirect, url_for, Response, jsonify, \
+    send_from_directory
 from jinja2 import Environment, FileSystemLoader
+from werkzeug.utils import secure_filename
 
 from utils import mylog, highlight, common
 from models import Blog, Comment, User, next_id
@@ -14,6 +16,9 @@ import app_config
 
 # 初始化flask的app
 app = Flask(__name__)
+
+UPLOAD_FOLDER = 'static/img/blogs'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 @app.template_filter('datetime')
@@ -67,6 +72,7 @@ def create_app_and_init():
     mode = app_config.init_config(app)
 
     init_jinja2(app.config, filters=dict(datetime=datetime_filter))
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     # 运行server
     app.run(debug=mode)
 
@@ -119,13 +125,25 @@ def write():
     return render_template('write.html')
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+def change_file_name(filename, id):
+    afterfix = filename.rsplit('.', 1)[1]
+    newname = [id, afterfix]
+    return '.'.join(newname)
+
+
 @app.route('/save_blog', methods=['POST'])
 def save_blog():
     id = next_id()
     user_id = 'admin'
     user_name = 'fantianwen'
-    # TODO 添加自己的头像
-    user_image = ''
+    file = request.files['blog_image']
+    file.filename = change_file_name(file.filename, id)
+    user_image = file.filename
     name = request.form['blog_title']
     summary = request.form['blog_summary']
     content = request.form['blog_content']
@@ -134,6 +152,9 @@ def save_blog():
     year = common.get_year(created_at)
     month = common.get_month(created_at)
     day = common.get_day(created_at)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     blog = Blog(id=id, user_id=user_id, user_name=user_name, user_image=user_image, name=name, summary=summary,
                 content=content, category=category, created_at=created_at, year=year, month=month, day=day)
     blog.save()
@@ -168,6 +189,12 @@ def blog_id(id):
     return render_template('blogdetail.html', blog=blog, comments=comments)
 
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+
 @app.route('/archive', methods=['GET'])
 def archive():
     # 获取年
@@ -198,8 +225,6 @@ def get_blogs(page_number):
     int_page_number = int(page_number)
     blogs = Blog.find_all(orderBy='created_at desc', limit=((int_page_number - 1) * 8, 8))
     return jsonify(blogs=blogs)
-
-
 
 
 if __name__ == '__main__':

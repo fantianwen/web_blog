@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>文章书写</title>
 
-    <link href="/static/css/write.css" type="text/css" rel="stylesheet"/>
+    <link href="static/css/write.css" type="text/css" rel="stylesheet"/>
 
 </head>
 <body ng-app="app">
@@ -17,10 +17,18 @@
 
 
 <div class="blog-form">
-    <form action="/save_blog" method="post">
+    <form action="/save_blog" method="post" enctype="multipart/form-data">
         <div class="blog-title">
             <p class="blog-title-1">标题</p>
             <textarea class="blog-title-content" name="blog_title">输入标题</textarea>
+        </div>
+
+        <div>
+
+            选择该博客的图片
+
+            <input type="file" name="blog_image">
+
         </div>
 
         <div class="blog-title">
@@ -44,6 +52,7 @@
         </div>
     </form>
 </div>
+
 
 
 </body>
