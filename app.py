@@ -162,6 +162,13 @@ def save_blog():
     return render_template('/welcome.html')
 
 
+# blog的图片资源
+@app.route('/api/blog_image/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+
 @app.route('/blog/<id>', methods=['GET', 'POST'])
 def blog_id(id):
     if request.method == 'POST':
@@ -187,12 +194,6 @@ def blog_id(id):
     blog.html_content = md_text
     comments = Comment.find_all('blog_id= ?', [id])
     return render_template('blogdetail.html', blog=blog, comments=comments)
-
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
 
 
 @app.route('/archive', methods=['GET'])
